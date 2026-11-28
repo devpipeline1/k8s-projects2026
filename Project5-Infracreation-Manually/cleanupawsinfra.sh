@@ -12,7 +12,7 @@ CLUSTER_NAME="application-eks"
 
 AWS_REGION="ap-south-1"
 
-APP_VPC_ID="vpc-0969a26bb723d81da"
+VPC_ID="vpc-0969a26bb723d81da"
 
 APP_PUBLIC_1_ID="subnet-0de65316501e62485"
 APP_PUBLIC_2_ID="subnet-010f6d04c180d12f9"
