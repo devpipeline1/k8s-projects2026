@@ -25,7 +25,8 @@ export APP_PUBLIC_2_CIDR="10.10.2.0/24"
 export APP_PRIVATE_1_CIDR="10.10.11.0/24"
 export APP_PRIVATE_2_CIDR="10.10.12.0/24"
 
-Create VPC
+#Create VPC
+#============
 
 export APP_VPC_ID=$(aws ec2 create-vpc \
   --region "$AWS_REGION" \
@@ -51,7 +52,8 @@ aws ec2 modify-vpc-attribute \
 
 
 
-Internet Gateway
+#Internet Gateway
+#================
 
 export APP_IGW_ID=$(aws ec2 create-internet-gateway \
   --region "$AWS_REGION" \
@@ -68,7 +70,8 @@ aws ec2 create-tags \
 
 
 
-Public Subnets
+#Public Subnets
+#==============
 
 export APP_PUBLIC_1_ID=$(aws ec2 create-subnet \
   --vpc-id "$APP_VPC_ID" \
@@ -94,7 +97,8 @@ aws ec2 modify-subnet-attribute \
 
 
 
-Private Subnets
+#Private Subnets
+#===============
 
 export APP_PRIVATE_1_ID=$(aws ec2 create-subnet \
   --vpc-id "$APP_VPC_ID" \
@@ -111,7 +115,8 @@ export APP_PRIVATE_2_ID=$(aws ec2 create-subnet \
   --output text)
 
 
-EKS Required Tags
+#EKS Required Tags
+#=================
 
 aws ec2 create-tags \
   --resources \
@@ -130,7 +135,8 @@ aws ec2 create-tags \
   Key=kubernetes.io/cluster/$APP_CLUSTER_NAME,Value=shared
 
 
-Public Route Table
+#Public Route Table
+#==================
 
 export APP_PUBLIC_RT_ID=$(aws ec2 create-route-table \
   --vpc-id "$APP_VPC_ID" \
@@ -151,7 +157,8 @@ aws ec2 associate-route-table \
   --subnet-id "$APP_PUBLIC_2_ID"
 
 
-NAT Gateway
+#NAT Gateway
+#============
 
 export APP_NAT_EIP_ALLOC_ID=$(aws ec2 allocate-address \
   --domain vpc \
@@ -168,7 +175,8 @@ aws ec2 wait nat-gateway-available \
   --nat-gateway-ids "$APP_NAT_GW_ID"
 
 
-Private Route Table
+#Private Route Table
+#===================
 
 export APP_PRIVATE_RT_ID=$(aws ec2 create-route-table \
   --vpc-id "$APP_VPC_ID" \
