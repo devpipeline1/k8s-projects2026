@@ -1,0 +1,48 @@
+apiVersion: eksctl.io/v1alpha5
+kind: ClusterConfig
+
+metadata:
+  name: application-eks
+  region: ap-south-1
+  version: "1.36"
+
+vpc:
+  id: vpc-0969a26bb723d81da
+  subnets:
+    private:
+      ap-south-1a:
+        id: subnet-0ad279431ad397ebb
+
+      ap-south-1b:
+        id: subnet-027928723346d4bcd
+
+  clusterEndpoints:
+    publicAccess: true
+    privateAccess: true
+
+iam:
+  withOIDC: true
+
+managedNodeGroups:
+  - name: application-workers
+    instanceType: t3.small
+    desiredCapacity: 2
+    minSize: 2
+    maxSize: 3
+    privateNetworking: true
+    volumeSize: 20
+    labels:
+      workload: application
+    tags:
+      Environment: demo
+      Cluster: application-eks
+      Purpose: test
+addons:
+  - name: vpc-cni
+    resolveConflicts: overwrite
+  - name: coredns
+    resolveConflicts: overwrite
+  - name: kube-proxy
+    resolveConflicts: overwrite
+  - name: aws-ebs-csi-driver
+    resolveConflicts: overwrite
